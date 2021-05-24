@@ -33,14 +33,14 @@
 	// Config
 	// const categories = regions.map((d) => d.code);
 	const url = "https://gist.githubusercontent.com/deblnia/5e5b9fc16bda9bb679ffbe3fb6354f41/raw/774b7a84b344cf00fe22eed055cfcf4f57725194/genesweep_for_viz.csv";
-	const catKey = "region_code";
+	const catKey = "guess";
 	// State
 	let data;
 	let places;
 	let selected;
-	let array = [[], [], []];
-	let xKey = "income";
-	let yKey = "employment";
+	var array = [[], [], []];
+	let xKey = "guess";
+	let yKey = "rownum_by_pd";
 
 	getData(url)
 		.then((result) => (data = result))
@@ -96,8 +96,8 @@
 	const mapstyle = 'https://bothness.github.io/ons-basemaps/data/style-omt.json';
 	const mapbounds = {
 		ew: [[-74.634644, 40.398145], [-72.420899, 41.115904]],
-		fareham: [[-73.468547, 40.858060], [-73.431984, 40.880777]],
-		newport: [[-3.0682, 51.5448], [-2.9170, 51.6258]]
+		fareham: [[-73.468547, 40.858060], [-73.431984, 40.880777]]
+		// newport: [[-3.0682, 51.5448], [-2.9170, 51.6258]]
 	};
 	// State
 	let map = null;
@@ -246,13 +246,10 @@
 		"Dr. Dear was asked how he had predicted such a low number three years ago when numbers around 50,000 were popular. It was late at night, he said, and he had been drinking in a bar. Second, at that hour, people's behavior did not seem so different from that of fruit flies, then known to have 13,500 genes, implying that twice that number would be ample for humans. Third, his birth date, April 27, 1962, immediately suggested 27,462 as the correct number."&mdash;The New York Times
 	</blockquote>
 	<p>
-		And those expectations are important! In case you haven't noticed, we are definitely not living in an era of genetically personalized medicine. And that's largely because scientist's still don't have definitive consensus about how many genes are in the human genome, or rather, 
+		And those expectations are important! In case you haven't noticed, we are definitely not living in an era of genetically personalized medicine. And that's largely because scientists still don't have definitive consensus about how many genes are in the human genome, or rather, even what a gene really is. It depends on who you ask. 
 	</p>
 	<p>
-		Below is a grid that could contain charts or any other kind of visual media.
-		The grid can fit in a standard, wide or full-width column, and the media
-		width itself can be narrow (min 200px), medium (min 300px), wide (min 500px)
-		or full-width. The grid is responsive, and will re-flow on smaller screens. 
+		But what is clear is that the number of genes in human genome is much, much lower than any scientist had originally intended. And we can actually see that consensus emerge in this dataset. Keep your eye on the right-hand extreme. 
 	</p>
 </Section>
 
@@ -266,29 +263,42 @@
 	<div class="media">media</div>
 </Media> -->
 
-<Section>
+<Media col="full" height={500}>
+	<div class="media"><img src="./img/dist.gif" alt="The Bar at CSHL"></div>
+</Media>
+
+<!-- <Section>
 	<h2>This is a dynamic chart section</h2>
 	<p>
 		The chart below will respond to the captions as you scroll down. 
 		The mode is set to splitscreen, with captions on the left on larger screens.
 	</p>
-</Section>
+</Section> -->
 
-<Scroller {threshold} bind:index={index[0]} splitscreen={true}>
+<!-- <Scroller {threshold} bind:index={index[0]} splitscreen={true}>
 	<div slot="background">
-		<figure>
+		<!-- <figure>
 			<div class="col-wide height-full middle">
-				<!-- {#if data} -->
-				{#if data && xKey && yKey}
+				< {#if data} -->
+				<!-- {#if data && xKey && yKey}
 				<div class="chart">
 					<ScatterChart diameter={3} {data} {xKey} {yKey} {catKey} {colors} />
-					<!-- <ScatterChart diameter={3} {data}/> -->
-				</div>
-				{/if}
-			</div>
-		</figure>
-	</div>
-
+					<!- <ScatterChart diameter={3} {data}/> -->
+				<!-- </div> -->
+				<!-- {/if} --> 
+			<!-- </div> -->
+		<!-- </figure> --> 
+		<!-- <section>
+			<img src="./img/pd1.png" alt="The Bar at CSHL">
+		</section> 
+		<section>
+			<img src="./img/pd2.png" alt="The Bar at CSHL">
+		</section>
+		<section>
+			<img src="./img/bar.jpg" alt="The Bar at CSHL">
+		</section>
+	</div> -->
+<!-- 
 	<div slot="foreground">
 		<section>
 			<div class="col-medium">
@@ -307,7 +317,7 @@
 				<p>There is a weak correlation between the IMD mesasures for <span class="em em-muted">housing</span> and 
 					<span class="em em-muted">health</span>.</p>
 			</div>
-		</section>
+		</section> -->
 		<!-- <section>
 			<div class="col-medium">
 				<h3>Explore the data</h3>
@@ -346,14 +356,17 @@
 			<!-- </div> -->
 		<!-- </section> --> 
 	<!-- </div> -->
-</Scroller>
+<!-- </Scroller> -->
+
+<br>
+<br>
 
 <Divider />
 
 
 <Section>
 	<p>
-		I had combined this data with data from the web on the scientists' individual publications and research keywords, with the hopes of showing some sort of between-group variance among these elite scientists. There's a lot of literature that would suggest that there is a difference there. 
+		My idea was to combine this data with data from the web on the scientists' individual publications and research keywords, with the hopes of showing some sort of meso-level between-group variance among these scientists. There's a lot of literature that would suggest that there would be a difference between the guesses of, for example, a biologist who studies plants or worms versus a biologist who studies something bigger, like humans. 
 	</p>
 	<br> 
 	<p> 
@@ -368,7 +381,6 @@
 <ONSFooter />
 
 <style>
-	/* Styles specific to elements within the demo */
 	.svg-icon {
 		width: 48px;
 		height: 48px;
@@ -393,11 +405,11 @@
 	select {
 		width: 210px;
 	}
-	.chart {
+	/* .chart {
 		margin-top: 45px;
 		height: 100vh;
 		width: calc(100% - 5px);
-	}
+	} */
 	/* The properties below make the media DIVs grey, for visual purposes in demo */
 	.media {
 	  background-color: #f0f0f0;
