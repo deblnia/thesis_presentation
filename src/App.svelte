@@ -31,55 +31,55 @@
 
 	// CHART CODE
 	// Config
-	const categories = regions.map((d) => d.code);
-	const url = "https://gist.githubusercontent.com/deblnia/5e5b9fc16bda9bb679ffbe3fb6354f41/raw/16d32e9ceeb93989a025e03b96b316cd47a6faa9/genesweep_for_viz.csv";
+	// const categories = regions.map((d) => d.code);
+	const url = "https://gist.githubusercontent.com/deblnia/5e5b9fc16bda9bb679ffbe3fb6354f41/raw/774b7a84b344cf00fe22eed055cfcf4f57725194/genesweep_for_viz.csv";
 	const catKey = "region_code";
 	// State
 	let data;
 	let places;
 	let selected;
+	let array = [[], [], []];
 	let xKey = "income";
 	let yKey = "employment";
 
 	getData(url)
 		.then((result) => (data = result))
 		.then(() => {
-			// console.log(data.slice(5)); 
 			// data = data.flat(); 
 			// console.log(data.slice(5)); 
 			let codes = [];
-			let array = [[], [], []];
 			data.forEach((d) => {
-				// console.log(d); 
-				if(data.period === 1){
-					array[0].push(d)
+				if(d.period === 1){
+					array[0].push({guess: d.guess, rownum_by_pd :d.rownum_by_pd})
 				}
-				else if (data.period === 2){
-					array[1].push(d)
+				else if (d.period === 2){
+					array[1].push({guess: d.guess, rownum_by_pd :d.rownum_by_pd})
 				}
 				else{
-					array[2].push(d)
+					array[2].push({guess: d.guess, rownum_by_pd :d.rownum_by_pd})
 				}
 		});
-		console.log(data.length); 
-		console.log(array); 
-		array.sort((a, b) => a.name.localeCompare(b.name));
-		places = array;
+		// array.sort((a, b) => a.name.localeCompare(b.name));
+		data = array[0];
+		// console.log(data);
 	});
 	
 	// Actions for CHART scroller
 	const chartActions = [
 		() => {
-			xKey = "income";
-			yKey = "employment";
+			xKey = "guess";
+			yKey = "rownum_by_pd";
+			data = array[0];
 		},
 		() => {
-			xKey = "income";
-			yKey = "health";
+			xKey = "guess";
+			yKey = "rownum_by_pd";
+			data = array[1];
 		},
 		() => {
-			xKey = "housing";
-			yKey = "health";
+			xKey = "guess";
+			yKey = "rownum_by_pd";
+			data = array[2];
 		}
 	];
 	
@@ -96,7 +96,8 @@
 	const mapstyle = 'https://bothness.github.io/ons-basemaps/data/style-omt.json';
 	const mapbounds = {
 		ew: [[-74.634644, 40.398145], [-72.420899, 41.115904]],
-		fareham: [[-73.468547, 40.858060], [-73.431984, 40.880777]]
+		fareham: [[-73.468547, 40.858060], [-73.431984, 40.880777]],
+		newport: [[-3.0682, 51.5448], [-2.9170, 51.6258]]
 	};
 	// State
 	let map = null;
@@ -210,7 +211,9 @@
 <br>
 <br>
 <br>
-<br> 
+<br>
+<br>
+
 <!-- <br>
 <br>
 <br>  -->
@@ -228,6 +231,11 @@
 <br>
 <br>
 <br> 
+<br>
+<br>
+<br>
+<br>
+
 
 <Section>
 	<h2>Bar games are interesting, especially when groups of scientists play them.</h2>
@@ -270,9 +278,11 @@
 	<div slot="background">
 		<figure>
 			<div class="col-wide height-full middle">
+				<!-- {#if data} -->
 				{#if data && xKey && yKey}
 				<div class="chart">
-					<ScatterChart diameter={3} {data} {xKey} {yKey} {catKey} {colors} {categories} />
+					<ScatterChart diameter={3} {data} {xKey} {yKey} {catKey} {colors} />
+					<!-- <ScatterChart diameter={3} {data}/> -->
 				</div>
 				{/if}
 			</div>
